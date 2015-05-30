@@ -19,6 +19,13 @@ describe ActiveRecord::Base do
     end
   end
 
+  describe '.primary_key' do
+    it 'should be set' do
+      class Model < ActiveRecord::Base; end
+      Model.table_name = 'users'
+      expect(Model.primary_key).to eq 'id'
+    end
+  end
   describe '#load_schema_attributes_names' do
     before do
       ActiveRecord::Base.table_name = 'users'
@@ -46,6 +53,10 @@ describe ActiveRecord::Base do
       user = Inherited.new(id: 4, name: 'xxx')
       expect(user.name).to eq 'xxx'
     end
+  end
+
+  describe '.save' do
+
   end
 
 end

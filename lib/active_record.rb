@@ -15,11 +15,20 @@ module ActiveRecord
       def attribute_names
         @attribute_names ||= load_schema_attribute_names
       end
+      # Get primary key
+      def primary_key
+        load_schema_attribute_names if @schema.nil?
+        @primary_key = @table_schema.key 'pk'
+      end
       # Load Schema
       def load_schema_attribute_names
         @schema_filename ||=  './schema.yml'
         @schema = YAML.load_file(@schema_filename)
-        raise TableDescriptionNotFoundError, table_name unless @schema.include? table_name
+        if @schema.include? table_name
+          @table_schema = @schema[table_name]
+        else
+          raise TableDescriptionNotFoundError, table_name
+        end
         @attribute_names = @schema[table_name].keys.map &:to_sym
       end
     end
