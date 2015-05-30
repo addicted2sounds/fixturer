@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'active_record'
 
 describe ActiveRecord::Base do
+  let(:class_name) { ActiveRecord::Base }
   let(:ar) { ActiveRecord::Base.new }
 
   describe '#table_name' do
@@ -25,4 +26,15 @@ describe ActiveRecord::Base do
     end
   end
 
+  describe '.define_attributes_from_schema' do
+    let(:attributes) { ActiveRecord::Base.load_schema_attribute_names }
+    before do
+      ActiveRecord::Base.table_name = 'users'
+      class_name.define_attributes_from_schema *attributes
+    end
+
+    it '.id should exist' do
+      expect(ar).to respond_to :id
+    end
+  end
 end

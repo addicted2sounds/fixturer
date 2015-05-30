@@ -13,13 +13,16 @@ module ActiveRecord
         @table_name ||= name.demodulize.underscore.pluralize
       end
       # Load Schema
-      def load_schema_attribute_names(filename)
+      def load_schema_attribute_names(filename=DEFAULT_SCHEMA)
         @attributes = YAML.load_file(filename)[table_name].keys.map &:to_sym
       end
+
       # Define attributes described in schema
       def define_attributes_from_schema(*attributes)
         attributes.each {|attribute| attr_accessor attribute }
       end
+
     end
+
   end
 end
