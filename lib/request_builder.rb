@@ -36,4 +36,8 @@ class RequestBuilder
   def last_insert_id(table)
     "SELECT LAST_INSERT_ID();"
   end
+
+  def delete(table, primary_key, id)
+    "DELETE FROM #{table} WHERE #{primary_key}='#{id}'"
+  end
 end

@@ -23,4 +23,11 @@ describe RequestBuilder do
       expect(@request).to eq "INSERT INTO users (id,name) VALUES ('1','x') ON DUPLICATE KEY UPDATE name='x';"
     end
   end
+
+  describe '.delete' do
+    it 'should be a valid query' do
+      @request = builder.delete(:users, :id, 1)
+      expect(@request).to eq "DELETE FROM users WHERE id='1'"
+    end
+  end
 end

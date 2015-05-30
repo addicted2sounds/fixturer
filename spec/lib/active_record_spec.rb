@@ -24,7 +24,7 @@ describe ActiveRecord::Base do
     it 'should be set' do
       class Model < ActiveRecord::Base; end
       Model.table_name = 'users'
-      expect(Model.primary_key).to eq 'id'
+      expect(Model.primary_key).to eq :id
     end
   end
 
@@ -96,7 +96,28 @@ describe ActiveRecord::Base do
     context 'id is set' do
       it 'should update existing row' do
         user.save
+        user2 = Inherited.find id: user.id
+        user2.name = 'ooo'
+        user2.save
+        expect(Inherited.find(id: user.id).name).to eq 'ooo'
       end
+    end
+  end
+  describe '.destroy' do
+    before do
+      Inherited.table_name = 'users'
+    end
+    let(:user) { Inherited.new name: 'xxx' }
+
+    it 'should delete record' do
+      user.save
+      user.destroy
+      expect(Inherited.find(id: user.id)).to be_nil
+    end
+    it 'should return unset record id' do
+      user.save
+      user.destroy
+      expect(user.id).to be_nil
     end
   end
 end

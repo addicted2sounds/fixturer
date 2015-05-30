@@ -3,10 +3,12 @@ require 'active_support/inflector'
 require 'yaml'
 require 'active_record/finder'
 require 'active_record/saver'
+require 'active_record/destroyer'
 
 module ActiveRecord
   class Base
     include ActiveRecord::Saver
+    include ActiveRecord::Destroyer
 
     attr_accessor :attributes
 
@@ -25,7 +27,7 @@ module ActiveRecord
       # Get primary key
       def primary_key
         load_schema_attribute_names if @schema.nil?
-        @primary_key = @table_schema.key 'pk'
+        @primary_key = @table_schema.key('pk').to_sym
       end
       # Load Schema
       def load_schema_attribute_names
