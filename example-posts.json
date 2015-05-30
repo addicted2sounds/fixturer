@@ -1,0 +1,5 @@
+[
+  { "name": "Niktolas", "text": "Все модели должны работать по ActiveRecord паттерну" },
+  { "name": "Neznauskas", "text": "Делаем свою реализацию" },
+  { "name": "Yeti", "text": "Паттерн Factory" }
+]

@@ -1,0 +1,2 @@
+class Post < ActiveRecord
+end

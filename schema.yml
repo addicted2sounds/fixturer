@@ -1,0 +1,9 @@
+users:
+  id: pk
+  name: string
+  last_name: string
+  age: int
+posts:
+  id: pk
+  name: string
+  text: string

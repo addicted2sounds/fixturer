@@ -1,0 +1,16 @@
+db:
+  image: mariadb
+  hostname: db.dev
+  volumes:
+    - /var/lib/mysql
+  environment:
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_USER: user
+    MYSQL_PASSWORD: passwd
+    MYSQL_DATABASE: test
+  volumes:
+    - /var/lib/mysql
+  # expose: 
+  # - 3306
+  ports:
+  - 3306:3306
