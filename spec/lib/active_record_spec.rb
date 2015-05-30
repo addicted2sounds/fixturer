@@ -16,16 +16,13 @@ describe ActiveRecord::Base do
   end
 
   describe '#load_schema_attributes_names' do
-    it 'should get names from schema' do
+    before do
       ActiveRecord::Base.table_name = 'users'
-      expect(ar.class.load_schema_attribute_names ActiveRecord::Base::DEFAULT_SCHEMA)
-          .to include :id, :name, :last_name, :age
+    end
+    subject { ActiveRecord::Base.load_schema_attribute_names ActiveRecord::Base::DEFAULT_SCHEMA }
+    it 'should get names from schema' do
+      is_expected.to include :id, :name, :last_name, :age
     end
   end
 
-  describe '#define_attributes_from_schema' do
-    it 'should load schema' do
-
-    end
-  end
 end
