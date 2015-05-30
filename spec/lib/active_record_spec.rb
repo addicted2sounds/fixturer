@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'active_record'
-
+require 'active_record/finder'
 class Inherited < ActiveRecord::Base
 
 end
@@ -25,6 +25,10 @@ describe ActiveRecord::Base do
       Model.table_name = 'users'
       expect(Model.primary_key).to eq 'id'
     end
+  end
+
+  describe '.find' do
+    it 'should search for the record'
   end
   describe '#load_schema_attributes_names' do
     before do
@@ -55,8 +59,20 @@ describe ActiveRecord::Base do
     end
   end
 
-  describe '.save' do
-
+  describe '.find' do
+    before do
+      Inherited.table_name = 'users'
+    end
+    it 'should respond to method' do
+      expect(ActiveRecord::Base).to respond_to :find
+    end
+    it 'should return model instance' do
+      expect(Inherited.find(id: 1)).to be_instance_of Inherited
+    end
+    it 'should load model attributes' do
+      model = Inherited.find(id: 1)
+      expect(model.id).to eq 1
+    end
   end
 
 end

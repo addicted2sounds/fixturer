@@ -17,6 +17,11 @@ class RequestBuilder
     "CREATE TABLE IF NOT EXISTS #{name} (#{columns.join ','});"
   end
 
+  def search(table, **args)
+    where_conditions = args.map { |k,v| "#{k}='#{v}'"}
+    "SELECT * FROM #{table} WHERE (#{where_conditions.join ','})"
+  end
+
   def show_columns(table)
     "SHOW COLUMNS FROM #{table}"
   end

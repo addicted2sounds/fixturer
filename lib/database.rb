@@ -27,6 +27,7 @@ class Database
     end
 
     def query(query)
+      @connect ||= connect
       @client.query query
     end
   end

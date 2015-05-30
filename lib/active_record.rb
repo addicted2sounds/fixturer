@@ -1,10 +1,12 @@
 require 'database'
 require 'active_support/inflector'
 require 'yaml'
+require 'active_record/finder'
 
 module ActiveRecord
   class Base
     class << self
+      include ActiveRecord::Finder
       attr_writer :table_name
       attr_reader :attribute_names
       # Get the database table name
@@ -51,5 +53,5 @@ module ActiveRecord
       end
       args.each { |k, v| send k }
     end
-  end
+   end
 end
