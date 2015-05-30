@@ -13,7 +13,7 @@ module ActiveRecord
       end
       # Load Schema
       def load_schema_attribute_names(filename)
-
+        YAML.load_file(filename)[table_name].keys.map &:to_sym
       end
       # Define attributes described in schema
       def define_attributes_from_schema

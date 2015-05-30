@@ -17,8 +17,9 @@ describe ActiveRecord::Base do
 
   describe '#load_schema_attributes_names' do
     it 'should get names from schema' do
+      ActiveRecord::Base.table_name = 'users'
       expect(ar.class.load_schema_attribute_names ActiveRecord::Base::DEFAULT_SCHEMA)
-          .to include [:id]
+          .to include :id, :name, :last_name, :age
     end
   end
 
