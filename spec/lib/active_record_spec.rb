@@ -1,6 +1,9 @@
 require 'spec_helper'
 require 'active_record'
 
+class Inherited < ActiveRecord::Base
+
+end
 describe ActiveRecord::Base do
   let(:class_name) { ActiveRecord::Base }
   let(:ar) { ActiveRecord::Base.new }
@@ -20,7 +23,7 @@ describe ActiveRecord::Base do
     before do
       ActiveRecord::Base.table_name = 'users'
     end
-    subject { ActiveRecord::Base.load_schema_attribute_names ActiveRecord::Base::DEFAULT_SCHEMA }
+    subject { ActiveRecord::Base.load_schema_attribute_names }
     it 'should get names from schema' do
       is_expected.to include :id, :name, :last_name, :age
     end
@@ -30,11 +33,38 @@ describe ActiveRecord::Base do
     let(:attributes) { ActiveRecord::Base.load_schema_attribute_names }
     before do
       ActiveRecord::Base.table_name = 'users'
-      class_name.define_attributes_from_schema *attributes
+      class_name.define_attributes_from_schema
     end
 
     it '.id should exist' do
       expect(ar).to respond_to :id
     end
   end
+
+  describe 'inherited class' do
+    before do
+      Inherited.table_name = 'users'
+    end
+    it 'should be available to set table_name' do
+      expect(Inherited.table_name).to eq 'users'
+    end
+
+    it 'should load attribute names' do
+      expect(Inherited.attribute_names).to include :id, :name, :last_name, :age
+    end
+
+    it 'should respond to attributes' do
+      inherited = Inherited.new
+      # inherited.test
+      p inherited.id
+      # Inherited.define_attributes_from_schema
+      # expect(inherited).to respond_to :id
+    end
+
+    # it 'should be able to initialize with attributes set' do
+    #   user = Inherited.new(id: 4, name: 'xxx')
+    #   # expect(user.name).to eq 'xxx'
+    # end
+  end
+
 end
