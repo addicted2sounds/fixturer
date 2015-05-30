@@ -22,27 +22,24 @@ module ActiveRecord
         raise TableDescriptionNotFoundError, table_name unless @schema.include? table_name
         @attribute_names = @schema[table_name].keys.map &:to_sym
       end
-
-      # Define attributes described in schema
-      def define_attributes_from_schema
-        attribute_names.each {|attribute| attr_accessor attribute }
-      end
-
     end
 
-    def method_missing(name)
-      if self.class.attribute_names.include? name
-        self.class.define_attributes_from_schema
-        send name
+    def method_missing(name, *args)
+      /^(\w+)(=)?$/ =~ name
+      if self.class.attribute_names.include? $1.to_sym
+        @attributes[$1.to_sym] = args[0] if $2
+        @attributes[$1.to_sym]
       else
         super
       end
     end
 
     def initialize(**args)
-      args.each { |k, v| p k,v }
-      # p class
-      # args.each { |k, v| send k, v }
+      @attributes = Hash.new
+      args.each do |name, value|
+        send("#{name}=", value)
+      end
+      args.each { |k, v| send k }
     end
   end
 end
