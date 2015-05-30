@@ -25,4 +25,15 @@ class RequestBuilder
   def show_columns(table)
     "SHOW COLUMNS FROM #{table}"
   end
+
+  def save(table, primary_key, **args)
+    values = args.values.map {|v| "'#{v}'"}.join ','
+    update_attributes = args.reject { |el,| el.eql? primary_key }
+    #"INSERT INTO #{table} (#{args.keys.join ','}) VALUES (#{values}) ON DUPLICATE UPDATE #{ update_attributes.map {|k,v| "#{k}='#{v}'"}.join ','}"
+    "INSERT INTO #{table} (#{args.keys.join ','}) VALUES (#{values}) ON DUPLICATE KEY UPDATE #{ update_attributes.map {|k,v| "#{k}='#{v}'"}.join ','};"
+  end
+
+  def last_insert_id(table)
+    "SELECT LAST_INSERT_ID();"
+  end
 end

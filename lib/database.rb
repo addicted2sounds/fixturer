@@ -30,6 +30,10 @@ class Database
       @connect ||= connect
       @client.query query
     end
+
+    def method_missing(name, *args)
+      @client.send name
+    end
   end
 end
 

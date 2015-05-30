@@ -17,4 +17,10 @@ describe RequestBuilder do
       expect(@request).to eq "SELECT * FROM users WHERE (id='1')"
     end
   end
+  describe '.save' do
+    it 'should be valid query' do
+      @request = builder.save(:users, :id, id: 1, name: 'x')
+      expect(@request).to eq "INSERT INTO users (id,name) VALUES ('1','x') ON DUPLICATE KEY UPDATE name='x';"
+    end
+  end
 end

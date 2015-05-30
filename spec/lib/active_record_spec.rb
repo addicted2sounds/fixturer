@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'active_record'
 require 'active_record/finder'
+require 'active_record/saver'
 class Inherited < ActiveRecord::Base
 
 end
@@ -27,9 +28,6 @@ describe ActiveRecord::Base do
     end
   end
 
-  describe '.find' do
-    it 'should search for the record'
-  end
   describe '#load_schema_attributes_names' do
     before do
       ActiveRecord::Base.table_name = 'users'
@@ -63,16 +61,42 @@ describe ActiveRecord::Base do
     before do
       Inherited.table_name = 'users'
     end
+    let(:user) { Inherited.new(name: 'xxx').save }
     it 'should respond to method' do
       expect(ActiveRecord::Base).to respond_to :find
     end
     it 'should return model instance' do
-      expect(Inherited.find(id: 1)).to be_instance_of Inherited
+      expect(Inherited.find(id: user.id)).to be_instance_of Inherited
     end
     it 'should load model attributes' do
-      model = Inherited.find(id: 1)
-      expect(model.id).to eq 1
+      model = Inherited.find(id: user.id)
+      expect(model.id).to eq user.id
     end
   end
 
+  describe '.save' do
+    before do
+      Inherited.table_name = 'users'
+    end
+    let(:user) { Inherited.new name: 'xxx' }
+
+    it 'should respond to method' do
+      expect(user).to respond_to :save
+    end
+    it 'should save new records' do
+      expect(user.save).to be_a_kind_of Inherited
+    end
+    it 'should return model Instance' do
+      expect(user.save.name).to eq 'xxx'
+    end
+    it 'should auto set primary key' do
+      user.save
+      expect(user.id).not_to be_nil
+    end
+    context 'id is set' do
+      it 'should update existing row' do
+        user.save
+      end
+    end
+  end
 end

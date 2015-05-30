@@ -2,9 +2,14 @@ require 'database'
 require 'active_support/inflector'
 require 'yaml'
 require 'active_record/finder'
+require 'active_record/saver'
 
 module ActiveRecord
   class Base
+    include ActiveRecord::Saver
+
+    attr_accessor :attributes
+
     class << self
       include ActiveRecord::Finder
       attr_writer :table_name
