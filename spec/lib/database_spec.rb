@@ -3,6 +3,9 @@ require 'database'
 
 describe Database do
   describe '#connect' do
+    it 'should connect using embed file' do
+      expect(Database.connect).to be_truthy
+    end
     it 'return true when success' do
       expect(Database.connect host: '127.0.0.1', username: 'root', password: 'root').to be_truthy
     end

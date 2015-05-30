@@ -35,6 +35,7 @@ module ActiveRecord
     end
 
     def initialize(**args)
+      @connection ||= Database::connect
       @attributes = Hash.new
       args.each do |name, value|
         send("#{name}=", value)

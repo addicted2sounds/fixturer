@@ -3,11 +3,17 @@ require 'yaml'
 require 'request_builder'
 
 class Database
+  CREDENTIALS_FILE = './database.yml'
   class << self
     def connect(**credentials)
-      @request_builder = RequestBuilder.new
+      credentials = load_credentials_from_file if credentials.empty?
       @database = credentials[:database]
       @client = Mysql2::Client.new(credentials)
+      @request_builder = RequestBuilder.new
+    end
+
+    def load_credentials_from_file(filename=nil)
+      YAML.load_file(filename || CREDENTIALS_FILE)
     end
 
     def load_schema(filename)
