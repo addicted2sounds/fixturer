@@ -2,13 +2,13 @@ require 'spec_helper'
 require 'fixture'
 
 describe FixtureFactory do
-  describe '.load' do
-    subject { FixtureFactory.load filename, :users }
+  describe '.load_file' do
+    subject { FixtureFactory.load_file :users, filename }
     it 'should raise InvalidFileTypeError for unknown format' do
-      expect { FixtureFactory.load 'example.xls', :users }
+      expect { FixtureFactory.load_file :users, 'example.xls' }
           .to raise_error InvalidFileTypeError
     end
-    it 'should validate correct format'
+    # it 'should validate correct format'
     context 'ini files' do
       let(:filename) { './example-users.ini' }
 
