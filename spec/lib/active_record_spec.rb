@@ -66,11 +66,14 @@ describe ActiveRecord::Base do
       expect(ActiveRecord::Base).to respond_to :find
     end
     it 'should return model instance' do
-      expect(Inherited.find(id: user.id)).to be_instance_of Inherited
+      expect(Inherited.find(id: 10)).to be_instance_of Inherited
     end
     it 'should load model attributes' do
       model = Inherited.find(id: user.id)
       expect(model.id).to eq user.id
+    end
+    it 'should accept one attribute as id' do
+      model = Inherited.find(10)
     end
   end
 
