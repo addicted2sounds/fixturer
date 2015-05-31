@@ -1,8 +1,6 @@
 require 'json'
 require 'active_record'
-# require 'models/user'
 require 'active_support/inflector'
-# Dir['./models/*.rb'].each {|file| p file }
 Dir['./lib/models/*'].each {|file| require file }
 
 class FixtureFactory
@@ -16,9 +14,11 @@ class FixtureFactory
 
     end
 
-    def load_single(factory, hash)
-      model = factory.to_s.singularize.camelize
-      model.constantize.new hash
+    def load_single(factory, hash, save=false)
+      model_name = factory.to_s.singularize.camelize
+      model = model_name.constantize.new hash
+      model.save if save
+      model
     end
 
     def fixtures_filename(factory)

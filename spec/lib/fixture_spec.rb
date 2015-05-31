@@ -38,5 +38,10 @@ describe FixtureFactory do
     subject(:fixture) { FixtureFactory.send :load_single, :users, attributes }
 
     it { is_expected.to be_a_kind_of User }
+    it { expect(fixture.name).to eq 'xxx' }
+    it 'can save record' do
+      user = FixtureFactory.send :load_single, :users, attributes, true
+      expect(user.class.find user.id).to be_a_kind_of user.class
+    end
   end
 end
