@@ -1,5 +1,5 @@
 [
-  { "name": "Niktolas", "lastname": "Papulechi", "age": 19 },
-  { "name": "Neznauskas", "lastname": "Lugizen", "age": 54 },
-  { "name": "Yeti", "lastname": "Lavumer", "age": 22 }
+  { "name": "Niktolas", "last_name": "Papulechi", "age": 19 },
+  { "name": "Neznauskas", "last_name": "Lugizen", "age": 54 },
+  { "name": "Yeti", "last_name": "Lavumer", "age": 22 }
 ]
