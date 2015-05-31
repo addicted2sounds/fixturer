@@ -1,2 +1,2 @@
-class Post < ActiveRecord
+class Post < ActiveRecord::Base
 end

@@ -1,16 +1,41 @@
 require 'json'
+require 'active_record'
+# require 'models/user'
+require 'active_support/inflector'
+# Dir['./models/*.rb'].each {|file| p file }
+Dir['./lib/models/*'].each {|file| require file }
 
 class FixtureFactory
   class << self
+    attr_reader :fixture_format
     METHODS_MAP = {
         ini: :load_ini,
         json: :load_json
     }
+    def load(factory)
+
+    end
+
+    def load_single(factory, hash)
+      model = factory.to_s.singularize.camelize
+      model.constantize.new hash
+    end
+
+    def fixtures_filename(factory)
+      raise NotImplementedError, :fixtures_format_not_set if @fixture_format.nil?
+      "example-#{factory}.#{fixture_format}"
+    end
+
+    def fixtures_format=(type)
+      raise NotImplementedError, :format_not_supported unless METHODS_MAP.keys.include? type
+      @fixture_format = type
+    end
     # load textures file
     def load_file(factory, filename)
       @data ||= Hash.new
       @data[factory] = Hash.new
       extension = File.extname(filename)[1..-1].to_sym
+      @fixture_format = extension
       if METHODS_MAP.include? extension
         self.send METHODS_MAP[extension], factory, filename
       else
